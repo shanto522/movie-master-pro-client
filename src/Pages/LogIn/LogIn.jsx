@@ -1,9 +1,61 @@
-import React from "react";
+import React, { useRef } from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 
 const LogIn = () => {
-  const { show, setShow } = useAuth();
+  const {
+    show,
+    setShow,
+    user,
+    signInWithPopupGoogleFunc,
+    setUser,
+    signInFunc,
+  } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const emailRef = useRef(null);
+  const handleLogIn = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const regExp =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+
+    if (!regExp.test(password)) {
+      toast.error(
+        "Password must include uppercase, lowercase, number & special character (min 6 chars)"
+      );
+      return;
+    }
+
+    signInFunc(email, password)
+      .then((res) => {
+        setUser(res.user);
+        toast.success("Login Successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        toast.error("Please enter valid email and password");
+      });
+  };
+  const handleGoogleLogIn = () => {
+    signInWithPopupGoogleFunc()
+      .then((res) => {
+        setUser(res.user);
+        toast.success("Login Successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => toast.error(err.message));
+  };
+  if (user) {
+    return <Navigate to={from} replace />;
+  }
   return (
     <div>
       <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-gray-200 px-6">
@@ -18,7 +70,7 @@ const LogIn = () => {
             </p>
           </div>
 
-          <form>
+          <form onSubmit={handleLogIn}>
             <div class="space-y-5">
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">
@@ -26,6 +78,8 @@ const LogIn = () => {
                 </label>
                 <input
                   type="email"
+                  name="email"
+                  ref={emailRef}
                   placeholder="you@example.com"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -38,6 +92,7 @@ const LogIn = () => {
                 </label>
                 <input
                   type={show ? "text" : "password"}
+                  name="password"
                   placeholder="••••••••"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -64,6 +119,7 @@ const LogIn = () => {
               </button>
 
               <button
+                onClick={handleGoogleLogIn}
                 type="button"
                 class="w-full flex items-center justify-center gap-2 py-3 border border-gray-600 text-gray-200 rounded-lg hover:bg-gray-800 transition"
               >
@@ -77,12 +133,12 @@ const LogIn = () => {
 
               <p class="text-center text-sm text-gray-400 mt-4">
                 Don’t have an account?
-                <a
-                  href="/register"
+                <Link
+                  to="/auth/register"
                   class="text-red-400 hover:text-red-300 font-medium"
                 >
                   Register
-                </a>
+                </Link>
               </p>
             </div>
           </form>

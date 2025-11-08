@@ -1,9 +1,60 @@
 import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const { show, setShow } = useAuth();
+  const { show, setShow, signUpFunc, signInWithPopupGoogleFunc, setUser } =
+    useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const photo = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const regExp =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+
+    if (!regExp.test(password)) {
+      toast.error(
+        "Password must be at least 6 characters long, and include at least one uppercase letter, one lowercase letter, one number, and one special character"
+      );
+      return;
+    }
+
+    signUpFunc(email, password)
+      .then((res) => {
+        const re = res.user;
+        console.log(re);
+        toast.success("Signup Successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((e) => {
+        if (e.code === "auth/email-already-in-use") {
+          toast.error("This email is already registered. Please login.");
+        } else {
+          toast.error(e.message);
+        }
+      });
+  };
+
+  const handleGoogleLogIn = () => {
+    signInWithPopupGoogleFunc()
+      .then((res) => {
+        setUser(res.user);
+        toast.success("Login Successful!");
+        navigate(from, { replace: true });
+      })
+      .catch((err) => toast.error(err.message));
+  };
+
   return (
     <div>
       <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-gray-200 px-6 py-8">
@@ -18,7 +69,7 @@ const Register = () => {
             </p>
           </div>
 
-          <form>
+          <form onSubmit={handleSignUp}>
             <div class="space-y-5">
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">
@@ -26,6 +77,7 @@ const Register = () => {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   placeholder="John Doe"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -38,6 +90,7 @@ const Register = () => {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="you@example.com"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -50,6 +103,7 @@ const Register = () => {
                 </label>
                 <input
                   type="url"
+                  name="photo"
                   placeholder="https://your-photo-link.com"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -61,6 +115,7 @@ const Register = () => {
                 </label>
                 <input
                   type={show ? "text" : "password"}
+                  name="password"
                   placeholder="••••••••"
                   class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
                   required
@@ -81,6 +136,7 @@ const Register = () => {
               </button>
 
               <button
+                onClick={handleGoogleLogIn}
                 type="button"
                 class="w-full flex items-center justify-center gap-2 py-3 border border-gray-600 text-gray-200 rounded-lg hover:bg-gray-800 transition"
               >
@@ -94,12 +150,12 @@ const Register = () => {
 
               <p class="text-center text-sm text-gray-400 mt-4">
                 Already have an account?
-                <a
-                  href="/login"
+                <Link
+                  to="/auth/login"
                   class="text-red-400 hover:text-red-300 font-medium"
                 >
                   Login
-                </a>
+                </Link>
               </p>
             </div>
           </form>

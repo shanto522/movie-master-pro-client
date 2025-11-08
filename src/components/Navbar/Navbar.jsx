@@ -2,8 +2,21 @@ import React from "react";
 import logo from "../../assets/logoImg.jpg";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, setUser, signOutFunc } = useAuth();
+  const handleLogOut = () => {
+    signOutFunc()
+      .then(() => {
+        toast.success("LogOut Successful!");
+        setUser(null);
+      })
+      .catch((error) => {
+        const err = error.message;
+        toast.error(err.message);
+      });
+  };
+
   const links = (
     <>
       <li>
@@ -47,12 +60,14 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-semibold"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-bold"
             >
               {links}
               {user ? (
                 <>
-                  <button className="btn-pro">LogOut</button>
+                  <button onClick={handleLogOut} className="btn-pro">
+                    LogOut
+                  </button>
                 </>
               ) : (
                 <>
@@ -91,7 +106,9 @@ const Navbar = () => {
                   title={user.displayName}
                   alt=""
                 />
-                <button className="btn btn-primary">LogOut</button>
+                <button onClick={handleLogOut} className="btn btn-primary">
+                  LogOut
+                </button>
               </div>
             </>
           ) : (

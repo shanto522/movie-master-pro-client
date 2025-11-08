@@ -10,15 +10,15 @@ import PrivateRoute from "../Provider/PrivateRoute";
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: MainLayout,
+    element: <MainLayout />,
     children: [
       {
         path: "/",
-        Component: Home,
+        element: <Home />,
       },
       {
         path: "/allMovies",
-        Component: AllMovies,
+        element: <AllMovies />,
       },
       {
         path: "/myCollection",
@@ -32,15 +32,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth",
-    Component: AuthLayout,
+    element: <AuthLayout />,
     children: [
       {
         path: "/auth/login",
-        Component: LogIn,
+        element: <LogIn />,
       },
       {
         path: "/auth/register",
-        Component: Register,
+        element: <Register />,
       },
     ],
   },
