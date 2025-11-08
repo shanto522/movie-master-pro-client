@@ -29,18 +29,13 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/movies" class="hover:text-red-400 transition">
+                <a href="/AllMovies" class="hover:text-red-400 transition">
                   All Movies
                 </a>
               </li>
               <li>
-                <a href="/my-collection" class="hover:text-red-400 transition">
+                <a href="/myCollection" class="hover:text-red-400 transition">
                   My Collection
-                </a>
-              </li>
-              <li>
-                <a href="/about" class="hover:text-red-400 transition">
-                  About
                 </a>
               </li>
             </ul>
@@ -52,24 +47,16 @@ const Footer = () => {
             </h3>
             <ul class="space-y-2">
               <li>
-                <a href="#" class="hover:text-red-400 transition">
-                  Help Center
-                </a>
+                <a class="hover:text-red-400 transition">Help Center</a>
               </li>
               <li>
-                <a href="#" class="hover:text-red-400 transition">
-                  Privacy Policy
-                </a>
+                <a class="hover:text-red-400 transition">Privacy Policy</a>
               </li>
               <li>
-                <a href="#" class="hover:text-red-400 transition">
-                  Terms & Conditions
-                </a>
+                <a class="hover:text-red-400 transition">Terms & Conditions</a>
               </li>
               <li>
-                <a href="#" class="hover:text-red-400 transition">
-                  Contact Us
-                </a>
+                <a class="hover:text-red-400 transition">Contact Us</a>
               </li>
             </ul>
           </div>

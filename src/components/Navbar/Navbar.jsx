@@ -1,18 +1,22 @@
 import React from "react";
 import logo from "../../assets/logoImg.jpg";
 import { Link, NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
 const Navbar = () => {
+  const { user } = useAuth();
   const links = (
     <>
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="allMovies">All Movies</NavLink>
+        <NavLink to="/allMovies">All Movies</NavLink>
       </li>
-      <li>
-        <NavLink to="/myCollection">My Collection</NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink to="/myCollection">My Collection</NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -23,7 +27,7 @@ const Navbar = () => {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost text-white lg:hidden"
+              className="btn btn-ghost text-white md:hidden"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +50,21 @@ const Navbar = () => {
               className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-semibold"
             >
               {links}
+              {user ? (
+                <>
+                  <button className="btn-pro">LogOut</button>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <NavLink to="/auth/login" className="btn-pro">
+                    Login
+                  </NavLink>
+                  <NavLink to="/auth/register" className="btn-pro">
+                    Register
+                  </NavLink>
+                </>
+              )}
             </ul>
           </div>
 
@@ -54,15 +73,38 @@ const Navbar = () => {
             className="flex justify-center items-center gap-3 text-white"
           >
             <img className=" h-10 w-10 rounded-full" src={logo} alt="" />
-            <a className="text-xl font-bold">MovieMaster Pro</a>
+            <a className="text-xl sm:text-lg xs:text-base font-bold whitespace-nowrap">
+              MovieMaster <span className="text-red-600">Pro</span>
+            </a>
           </Link>
         </div>
-        <div className="navbar-center text-white hidden lg:flex">
+        <div className="navbar-center text-white hidden md:flex">
           <ul className="menu menu-horizontal font-semibold px-1">{links}</ul>
         </div>
         <div className="navbar-end hidden md:flex gap-2">
-          <a className="btn-pro">Login</a>
-          <a className="btn-pro">Register</a>
+          {user ? (
+            <>
+              <div className="flex items-center justify-center gap-5">
+                <img
+                  className="h-9 w-9 rounded-full object-cover border-2 border-white"
+                  src={user.photoURL}
+                  title={user.displayName}
+                  alt=""
+                />
+                <button className="btn btn-primary">LogOut</button>
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <NavLink to="/auth/login" className="btn-pro">
+                Login
+              </NavLink>
+              <NavLink to="/auth/register" className="btn-pro">
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </div>
