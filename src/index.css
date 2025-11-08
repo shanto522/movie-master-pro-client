@@ -2,3 +2,9 @@
 @plugin "daisyui" {
   themes: light --default;
 }
+.btn-pro {
+  @apply btn bg-[#47698F] text-white border-[#35567b];
+}
+a.active {
+  @apply btn bg-[#FF9900] text-black border-[#e17d00];
+}
