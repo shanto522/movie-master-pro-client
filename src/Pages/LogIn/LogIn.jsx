@@ -13,11 +13,11 @@ const LogIn = () => {
     setUser,
     signInFunc,
   } = useAuth();
-
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const emailRef = useRef(null);
+
   const handleLogIn = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -40,10 +40,11 @@ const LogIn = () => {
         toast.success("Login Successful!");
         navigate(from, { replace: true });
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Please enter valid email and password");
       });
   };
+
   const handleGoogleLogIn = () => {
     signInWithPopupGoogleFunc()
       .then((res) => {
@@ -53,97 +54,93 @@ const LogIn = () => {
       })
       .catch((err) => toast.error(err.message));
   };
-  if (user) {
-    return <Navigate to={from} replace />;
-  }
+
+  if (user) return <Navigate to={from} replace />;
+
   return (
-    <div>
-      <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 text-gray-200 px-6">
-        <div class="w-full max-w-md bg-gray-900/70 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-gray-700">
-          <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-white flex items-center justify-center gap-2">
-              <span class="text-red-500">🎬</span> MovieMaster{" "}
-              <span class="text-red-500">Pro</span>
-            </h2>
-            <p class="text-gray-400 text-sm mt-2">
-              Login to manage your movie collection 🎥
-            </p>
+    <div
+      className={`min-h-screen flex items-center justify-center px-4 py-12 `}
+    >
+      <div
+        className={`w-full max-w-md p-8 rounded-2xl shadow-xl backdrop-blur-md border `}
+      >
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold flex items-center justify-center gap-2">
+            <span className="text-red-500">🎬</span> MovieMaster{" "}
+            <span className="text-red-500">Pro</span>
+          </h2>
+          <p className="mt-2 text-sm">
+            Login to manage your movie collection 🎥
+          </p>
+        </div>
+
+        <form onSubmit={handleLogIn} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              ref={emailRef}
+              placeholder="Your Email"
+              className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 `}
+              required
+            />
           </div>
 
-          <form onSubmit={handleLogIn}>
-            <div class="space-y-5">
-              <div>
-                <label class="block text-sm font-medium text-gray-300 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  ref={emailRef}
-                  placeholder="you@example.com"
-                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  required
-                />
-              </div>
+          <div className="relative">
+            <label className="block text-sm font-medium mb-1">Password</label>
+            <input
+              type={show ? "text" : "password"}
+              name="password"
+              placeholder="••••••••"
+              className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 `}
+              required
+            />
+            <span
+              onClick={() => setShow(!show)}
+              className="absolute right-4 bottom-4 cursor-pointer text-gray-500 hover:text-red-100"
+            >
+              {show ? <FaEye /> : <FaEyeSlash />}
+            </span>
+          </div>
 
-              <div className="relative">
-                <label class="block text-sm font-medium text-gray-300 mb-1">
-                  Password
-                </label>
-                <input
-                  type={show ? "text" : "password"}
-                  name="password"
-                  placeholder="••••••••"
-                  class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
-                  required
-                />
-                <span
-                  onClick={() => setShow(!show)}
-                  className="absolute right-[20px] top-[40px] cursor-pointer z-50"
-                >
-                  {show ? <FaEye /> : <FaEyeSlash />}
-                </span>
-              </div>
+          <div className="text-right">
+            <Link className="text-sm text-red-500 hover:text-red-400" to="#">
+              Forgot password?
+            </Link>
+          </div>
 
-              <div class="text-right">
-                <a class="text-sm text-red-400 hover:text-red-300 transition">
-                  Forgot password?
-                </a>
-              </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg"
+          >
+            Login
+          </button>
 
-              <button
-                type="submit"
-                class="w-full py-3 bg-red-600 hover:bg-red-700 transition text-white font-semibold rounded-lg shadow-md hover:shadow-lg"
-              >
-                Login
-              </button>
+          <button
+            type="button"
+            onClick={handleGoogleLogIn}
+            className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg border `}
+          >
+            <img
+              src="https://www.svgrepo.com/show/355037/google.svg"
+              alt="Google"
+              className="w-5 h-5"
+            />
+            <span className="font-medium">Continue with Google</span>
+          </button>
 
-              <button
-                onClick={handleGoogleLogIn}
-                type="button"
-                class="w-full flex items-center justify-center gap-2 py-3 border border-gray-600 text-gray-200 rounded-lg hover:bg-gray-800 transition"
-              >
-                <img
-                  src="https://www.svgrepo.com/show/355037/google.svg"
-                  alt="Google"
-                  class="w-5 h-5"
-                />
-                Continue with Google
-              </button>
-
-              <p class="text-center text-sm text-gray-400 mt-4">
-                Don’t have an account?
-                <Link
-                  to="/auth/register"
-                  class="text-red-400 hover:text-red-300 font-medium"
-                >
-                  Register
-                </Link>
-              </p>
-            </div>
-          </form>
-        </div>
-      </section>
+          <p className={`text-center text-sm mt-4`}>
+            Don’t have an account?{" "}
+            <Link
+              to="/auth/register"
+              className="text-red-500 hover:text-red-400 font-medium"
+            >
+              Register
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

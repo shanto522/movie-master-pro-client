@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logoImg.jpg";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import { FaRegArrowAltCircleDown, FaMoon, FaSun } from "react-icons/fa";
+
 const Navbar = () => {
   const { user, setUser, signOutFunc } = useAuth();
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+
   const handleLogOut = () => {
     signOutFunc()
       .then(() => {
         toast.success("LogOut Successful!");
         setUser(null);
+        setMobileDropdownOpen(false);
       })
-      .catch((error) => {
-        const err = error.message;
-        toast.error(err.message);
-      });
+      .catch((error) => toast.error(error.message));
+  };
+  const handleTheme = (checked) => {
+    const html = document.querySelector("html");
+    if (checked) {
+      html.setAttribute("data-theme", "dark");
+    } else {
+      html.setAttribute("data-theme", "light");
+    }
   };
 
   const links = (
@@ -32,97 +42,154 @@ const Navbar = () => {
       )}
     </>
   );
-  return (
-    <div>
-      <div className="navbar bg-gradient-to-b from-gray-900 to-black shadow-sm">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost text-white md:hidden"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
-              </svg>
-            </div>
-            <ul
-              tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-bold"
-            >
-              {links}
-              {user ? (
-                <>
-                  <button onClick={handleLogOut} className="btn-pro">
-                    LogOut
-                  </button>
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <NavLink to="/auth/login" className="btn-pro">
-                    Login
-                  </NavLink>
-                  <NavLink to="/auth/register" className="btn-pro">
-                    Register
-                  </NavLink>
-                </>
-              )}
-            </ul>
-          </div>
 
-          <Link
-            to="/"
-            className="flex justify-center items-center gap-3 text-white"
+  return (
+    <div className="navbar sticky top-0 z-50 shadow-md bg-base-100 text-base-content">
+      <div className="navbar-start flex items-center gap-3">
+        <div className="dropdown md:hidden">
+          <button
+            onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+            className="btn btn-ghost"
           >
-            <img className=" h-10 w-10 rounded-full" src={logo} alt="" />
-            <a className="text-xl sm:text-lg xs:text-base font-bold whitespace-nowrap">
-              MovieMaster <span className="text-red-600">Pro</span>
-            </a>
-          </Link>
-        </div>
-        <div className="navbar-center text-white hidden md:flex">
-          <ul className="menu menu-horizontal font-semibold px-1">{links}</ul>
-        </div>
-        <div className="navbar-end hidden md:flex gap-2">
-          {user ? (
-            <>
-              <div className="flex items-center justify-center gap-5">
-                <img
-                  className="h-9 w-9 rounded-full object-cover border-2 border-white"
-                  src={user.photoURL}
-                  title={user.displayName}
-                  alt=""
-                />
-                <button onClick={handleLogOut} className="btn btn-primary">
-                  LogOut
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              {" "}
-              <NavLink to="/auth/login" className="btn-pro">
-                Login
-              </NavLink>
-              <NavLink to="/auth/register" className="btn-pro">
-                Register
-              </NavLink>
-            </>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </button>
+
+          {mobileDropdownOpen && (
+            <ul className="menu dropdown-content bg-base-100 rounded-box mt-2 w-60 p-3 shadow font-bold absolute left-0 top-12">
+              {links}
+
+              {user && (
+                <li className="mt-2 border-t border-gray-300 pt-2">
+                  <div className="flex flex-col items-center">
+                    <img
+                      src={user.photoURL}
+                      title={user.displayName}
+                      alt="profile"
+                      className="h-16 w-16 rounded-full border-2 border-gray-400 mb-2"
+                    />
+                    <p className="font-semibold">{user.displayName}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                </li>
+              )}
+
+              <li className="mt-2">
+                {user ? (
+                  <button
+                    onClick={handleLogOut}
+                    className="block w-full text-center text-red-600 font-semibold hover:bg-red-50 rounded-lg py-1 mt-1 transition"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <NavLink
+                      to="/auth/login"
+                      className="btn-pro w-full text-center my-1"
+                      onClick={() => setMobileDropdownOpen(false)}
+                    >
+                      Login
+                    </NavLink>
+                    <NavLink
+                      to="/auth/register"
+                      className="btn-pro w-full text-center my-1"
+                      onClick={() => setMobileDropdownOpen(false)}
+                    >
+                      Register
+                    </NavLink>
+                  </>
+                )}
+              </li>
+            </ul>
           )}
         </div>
+
+        <Link to="/" className="flex items-center gap-3">
+          <img className="h-10 w-10 rounded-full" src={logo} alt="logo" />
+          <span className="text-xl font-bold whitespace-nowrap">
+            MovieMaster <span className="text-red-600">Pro</span>
+          </span>
+        </Link>
+      </div>
+
+      <div className="navbar-center hidden md:flex">
+        <ul className="menu menu-horizontal font-semibold px-1">{links}</ul>
+      </div>
+
+      <div className="navbar-end hidden md:flex gap-3 items-center">
+        <div>
+          <input
+            onChange={(e) => handleTheme(e.target.checked)}
+            type="checkbox"
+            defaultChecked={localStorage.getItem("theme") === "dark"}
+            className="toggle"
+          />
+        </div>
+
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-1 rounded-lg transition-all"
+            >
+              <img
+                src={user.photoURL}
+                alt="profile"
+                className="h-9 w-9 rounded-full border-2 border-white"
+              />
+              <FaRegArrowAltCircleDown />
+            </div>
+
+            <ul className="dropdown-content menu bg-base-100 rounded-xl mt-3 w-60 p-3 shadow-lg border border-gray-200 dark:border-gray-700">
+              <li className="text-center pb-2 border-b border-gray-300 dark:border-gray-600">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={user.photoURL}
+                    alt="profile"
+                    className="h-14 w-14 rounded-full border-2 border-gray-400 mb-2"
+                  />
+                  <p className="font-semibold text-gray-800 dark:text-gray-200 text-[20px]">
+                    {user.displayName}
+                  </p>
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-300">
+                    {user.email}
+                  </p>
+                </div>
+              </li>
+
+              <li>
+                <button
+                  onClick={handleLogOut}
+                  className="text-red-600 font-semibold flex justify-center hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors w-full"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <>
+            <NavLink to="/auth/login" className="btn-pro">
+              Login
+            </NavLink>
+            <NavLink to="/auth/register" className="btn-pro">
+              Register
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   );
