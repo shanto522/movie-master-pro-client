@@ -3,16 +3,14 @@ import { useLoaderData, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { GrUpdate } from "react-icons/gr";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const UpdateMovies = () => {
-  const movie = useLoaderData(); // loader থেকে আসা ডেটা
+  const movie = useLoaderData(); 
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  // Form state
   const [formData, setFormData] = useState({
     title: movie.title || "",
     genre: movie.genre || "",
@@ -40,14 +38,23 @@ const UpdateMovies = () => {
     try {
       await axiosSecure.put(`/movies/${movie._id}`, formData);
 
-      // Toast দেখানোর পর 1 সেকেন্ড delay দিয়ে navigate
-      toast.success("Movie updated successfully!");
-      setTimeout(() => {
-        navigate("/myCollection"); // Update হয়ে গেলে collection এ ফেরত
-      }, 1000);
+
+      Swal.fire({
+        title: "Success!",
+        text: "Movie updated successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/myCollection");
+      });
     } catch (err) {
       console.error(err);
-      toast.error("Failed to update movie");
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update movie",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     } finally {
       setLoading(false);
     }

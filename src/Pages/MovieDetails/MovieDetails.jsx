@@ -91,6 +91,7 @@ const MovieDetails = () => {
           <p className="mt-4 break-words max-w-full overflow-auto">
             <strong>Plot Summary:</strong> {movie.plotSummary}
           </p>
+          <button className="btn-pro">My Wishlist</button>
 
           {isOwner && (
             <div className="mt-6 flex gap-4 flex-wrap">
