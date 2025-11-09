@@ -8,10 +8,14 @@ import LogIn from "../Pages/LogIn/LogIn";
 import Register from "../Pages/Register/Register";
 import PrivateRoute from "../Provider/PrivateRoute";
 import AddMovie from "../Pages/AddMovie/AddMovie";
+import MovieDetails from "../Pages/MovieDetails/MovieDetails";
+import Loading from "../Pages/Loading/Loading";
+import UpdateMovies from "../Pages/UpdateMovies/UpdateMovies";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: Loading,
     children: [
       {
         path: "/",
@@ -20,11 +24,8 @@ const router = createBrowserRouter([
       {
         path: "/allMovies",
         element: <AllMovies />,
-        loader: async () => {
-          const res = await fetch("http://localhost:3000/movies");
-          if (!res.ok) throw new Error("Failed to fetch movies");
-          return res.json();
-        },
+        loader: () =>
+          fetch("http://localhost:3000/movies").then((res) => res.json()),
       },
       {
         path: "/myCollection",
@@ -36,9 +37,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/addMovie",
-        element:<PrivateRoute>
-          <AddMovie></AddMovie>
-        </PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <AddMovie></AddMovie>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/movieDetails/:id",
+        element: (
+          <PrivateRoute>
+            <MovieDetails></MovieDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/movies/${params.id}`).then((res) =>
+            res.json()
+          ),
+      },
+      {
+        path: "/updateMovies/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateMovies></UpdateMovies>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/movies/${params.id}`).then((res) =>
+            res.json()
+          ),
       },
     ],
   },

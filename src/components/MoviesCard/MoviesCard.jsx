@@ -1,6 +1,6 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import { Navigate } from "react-router";
+import { Link, Navigate } from "react-router";
 
 const MoviesCard = ({ movie }) => {
   const { posterUrl, title, releaseYear, genre, rating, _id } = movie;
@@ -15,14 +15,16 @@ const MoviesCard = ({ movie }) => {
           <p className="text-sm text-gray-500 dark:text-gray-300">
             {genre} | {releaseYear}
           </p>
-          <p className="flex justify-center items-center gap-1 text-sm font-semibold ">{rating}<FaStar /></p>
+          <p className="flex justify-center items-center gap-1 text-sm font-semibold ">
+            {rating}
+            <FaStar />
+          </p>
         </div>
-        <button
-          onClick={() => Navigate(`/movies/${_id}`)}
-          className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-        >
-          Details
-        </button>
+        <Link to={`/movieDetails/${_id}`}>
+          <button className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Details
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink to="/addMovie">
-             <AiFillFolderAdd size={22}/>
+              <AiFillFolderAdd size={22} />
               Add Movie
             </NavLink>
           </li>
@@ -96,21 +96,6 @@ const Navbar = () => {
             <ul className="menu dropdown-content bg-base-100 rounded-box mt-2 w-60 p-3 shadow font-bold absolute left-0 top-12">
               {links}
 
-              {user && (
-                <li className="mt-2 border-t border-gray-300 pt-2">
-                  <div className="flex flex-col items-center">
-                    <img
-                      src={user.photoURL}
-                      title={user.displayName}
-                      alt="profile"
-                      className="h-16 w-16 rounded-full border-2 border-gray-400 mb-2"
-                    />
-                    <p className="font-semibold">{user.displayName}</p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
-                  </div>
-                </li>
-              )}
-
               <li className="mt-2">
                 {user ? (
                   <button
@@ -144,7 +129,7 @@ const Navbar = () => {
 
         <Link to="/" className="flex items-center gap-3">
           <img className="h-10 w-10 rounded-full" src={logo} alt="logo" />
-          <span className="text-xl font-bold whitespace-nowrap">
+          <span className="text-xl font-bold ">
             MovieMaster <span className="text-red-600">Pro</span>
           </span>
         </Link>
