@@ -7,6 +7,7 @@ import AuthLayout from "../Layout/AuthLayout";
 import LogIn from "../Pages/LogIn/LogIn";
 import Register from "../Pages/Register/Register";
 import PrivateRoute from "../Provider/PrivateRoute";
+import AddMovie from "../Pages/AddMovie/AddMovie";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,11 @@ const router = createBrowserRouter([
       {
         path: "/allMovies",
         element: <AllMovies />,
+        loader: async () => {
+          const res = await fetch("http://localhost:3000/movies");
+          if (!res.ok) throw new Error("Failed to fetch movies");
+          return res.json();
+        },
       },
       {
         path: "/myCollection",
@@ -27,6 +33,12 @@ const router = createBrowserRouter([
             <MyCollection></MyCollection>
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/addMovie",
+        element:<PrivateRoute>
+          <AddMovie></AddMovie>
+        </PrivateRoute>
       },
     ],
   },

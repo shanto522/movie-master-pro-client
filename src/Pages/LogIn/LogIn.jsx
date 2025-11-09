@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
 import useAuth from "../../hooks/useAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
+import React, { useRef } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 
 const LogIn = () => {

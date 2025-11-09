@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logoImg.jpg";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
-import { FaRegArrowAltCircleDown, FaMoon, FaSun } from "react-icons/fa";
+import { FaHome, FaRegArrowAltCircleDown } from "react-icons/fa";
+import { MdMovieFilter } from "react-icons/md";
+import { BiSolidCameraMovie } from "react-icons/bi";
+import { IoMdLogOut } from "react-icons/io";
+import { BsFillCollectionPlayFill } from "react-icons/bs";
+import { AiFillFolderAdd } from "react-icons/ai";
 
 const Navbar = () => {
   const { user, setUser, signOutFunc } = useAuth();
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
 
   const handleLogOut = () => {
     signOutFunc()
@@ -18,33 +34,42 @@ const Navbar = () => {
       })
       .catch((error) => toast.error(error.message));
   };
-  const handleTheme = (checked) => {
-    const html = document.querySelector("html");
-    if (checked) {
-      html.setAttribute("data-theme", "dark");
-    } else {
-      html.setAttribute("data-theme", "light");
-    }
-  };
 
   const links = (
     <>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/">
+          <FaHome size={22} />
+          Home
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/allMovies">All Movies</NavLink>
+        <NavLink to="/allMovies">
+          <BiSolidCameraMovie size={22} />
+          All Movies
+        </NavLink>
       </li>
       {user && (
-        <li>
-          <NavLink to="/myCollection">My Collection</NavLink>
-        </li>
+        <>
+          <li>
+            <NavLink to="/myCollection">
+              <BsFillCollectionPlayFill size={22} />
+              My Collection
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/addMovie">
+             <AiFillFolderAdd size={22}/>
+              Add Movie
+            </NavLink>
+          </li>
+        </>
       )}
     </>
   );
 
   return (
-    <div className="navbar sticky top-0 z-50 shadow-md bg-base-100 text-base-content">
+    <div className="navbar max-w-[1440px] mx-auto sticky top-0 z-50 shadow-md bg-base-100 text-base-content md:px-13">
       <div className="navbar-start flex items-center gap-3">
         <div className="dropdown md:hidden">
           <button
@@ -129,12 +154,12 @@ const Navbar = () => {
         <ul className="menu menu-horizontal font-semibold px-1">{links}</ul>
       </div>
 
-      <div className="navbar-end hidden md:flex gap-3 items-center">
-        <div>
+      <div className="navbar-end flex gap-3 items-center">
+        <div className="flex md:flex-none">
           <input
             onChange={(e) => handleTheme(e.target.checked)}
             type="checkbox"
-            defaultChecked={localStorage.getItem("theme") === "dark"}
+            checked={theme === "dark"}
             className="toggle"
           />
         </div>
@@ -175,20 +200,21 @@ const Navbar = () => {
                   onClick={handleLogOut}
                   className="text-red-600 font-semibold flex justify-center hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors w-full"
                 >
+                  <IoMdLogOut size={22} />
                   Logout
                 </button>
               </li>
             </ul>
           </div>
         ) : (
-          <>
+          <div className="hidden md:flex gap-2">
             <NavLink to="/auth/login" className="btn-pro">
               Login
             </NavLink>
             <NavLink to="/auth/register" className="btn-pro">
               Register
             </NavLink>
-          </>
+          </div>
         )}
       </div>
     </div>

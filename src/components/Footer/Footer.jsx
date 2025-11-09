@@ -3,21 +3,21 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="pt-12 pb-8 border-y px-6 sm:px-10 lg:px-16 bg-white text-gray-900">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+    <footer className="pt-12 pb-8 border px-6 sm:px-10 lg:px-16  max-w-[1440px] mx-auto">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
         <div className="space-y-3 text-center sm:text-left">
           <h2 className="text-3xl font-extrabold flex justify-center sm:justify-start items-center gap-2">
             <span className="text-red-500">🎬</span> MovieMaster{" "}
             <span className="text-red-500">Pro</span>
           </h2>
-          <p className="text-sm leading-relaxed max-w-xs mx-auto sm:mx-0 text-gray-700">
+          <p className="text-sm leading-relaxed max-w-xs mx-auto sm:mx-0 ">
             Discover, manage, and organize your favorite movies — all in one
             place. Experience cinema your way.
           </p>
         </div>
 
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 text-gray-900">
+          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 ">
             Quick Links
           </h3>
           <ul className="space-y-2">
@@ -28,7 +28,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="/AllMovies"
+                href="/allMovies"
                 className="hover:text-red-400 transition-colors"
               >
                 All Movies
@@ -46,7 +46,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 text-gray-900">
+          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 ">
             Support
           </h3>
           <ul className="space-y-2">
@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center sm:text-left">
-          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 text-gray-900">
+          <h3 className="text-lg font-semibold mb-3 border-b border-red-500 inline-block pb-1 ">
             Follow Us
           </h3>
           <div className="flex justify-center sm:justify-start space-x-6 mt-4">
@@ -96,7 +96,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t mt-10 pt-5 text-center text-sm text-gray-700">
+      <div className="border-t mt-10 pt-5 text-center text-sm ">
         © 2025{" "}
         <span className="text-red-500 font-semibold">MovieMaster Pro</span> —
         All Rights Reserved.
