@@ -3,7 +3,6 @@ import { Link, useLoaderData, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const MovieDetails = () => {
   const movie = useLoaderData();
@@ -14,6 +13,32 @@ const MovieDetails = () => {
   if (!movie) return <p className="text-center mt-10">Movie not found</p>;
 
   const isOwner = user?.email === movie.addedBy;
+
+  const handleAddToWishlist = async () => {
+    if (!user) {
+      toast.error("Please login to add movies to wishlist");
+      return;
+    }
+
+    try {
+      const res = await axiosSecure.get(`/wishlist?email=${user.email}`);
+      const exists = res.data.find((m) => m._id === movie._id);
+      if (exists) {
+        toast.warning("Already added to wishlist!");
+        return;
+      }
+
+      await axiosSecure.post("/wishlist", {
+        ...movie,
+        addedBy: user.email,
+      });
+
+      toast.success("Added to wishlist successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add to wishlist");
+    }
+  };
 
   const handleDelete = async () => {
     toast.info(
@@ -52,7 +77,7 @@ const MovieDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 md:p-12 space-y-6">
-      <ToastContainer position="top-right" />
+      <ToastContainer position="top-center" />
 
       <div className="flex flex-col md:flex-row gap-6 shadow-xl rounded-2xl p-6 animate-fadeIn bg-white dark:bg-gray-900 transition duration-300">
         <img
@@ -91,7 +116,12 @@ const MovieDetails = () => {
           <p className="mt-4 break-words max-w-full overflow-auto">
             <strong>Plot Summary:</strong> {movie.plotSummary}
           </p>
-          <button className="btn-pro">My Wishlist</button>
+          <button
+            onClick={handleAddToWishlist}
+            className="btn-pro mt-4 px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition"
+          >
+            Add to Wishlist
+          </button>
 
           {isOwner && (
             <div className="mt-6 flex gap-4 flex-wrap">

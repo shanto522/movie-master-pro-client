@@ -11,6 +11,7 @@ import AddMovie from "../Pages/AddMovie/AddMovie";
 import MovieDetails from "../Pages/MovieDetails/MovieDetails";
 import Loading from "../Pages/Loading/Loading";
 import UpdateMovies from "../Pages/UpdateMovies/UpdateMovies";
+import MyWishlist from "../Pages/MyWishlist/MyWishlist";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
           fetch(`http://localhost:3000/movies/${params.id}`).then((res) =>
             res.json()
           ),
+      },
+      {
+        path: "/myWishlist",
+        element: (
+          <PrivateRoute>
+            <MyWishlist></MyWishlist>
+          </PrivateRoute>
+        ),
       },
     ],
   },

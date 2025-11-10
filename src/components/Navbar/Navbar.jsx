@@ -52,15 +52,22 @@ const Navbar = () => {
       {user && (
         <>
           <li>
+            <NavLink to="/addMovie">
+              <AiFillFolderAdd size={22} />
+              Add Movie
+            </NavLink>
+          </li>
+
+          <li>
             <NavLink to="/myCollection">
               <BsFillCollectionPlayFill size={22} />
               My Collection
             </NavLink>
           </li>
           <li>
-            <NavLink to="/addMovie">
+            <NavLink to="/myWishlist">
               <AiFillFolderAdd size={22} />
-              Add Movie
+              My Wishlist
             </NavLink>
           </li>
         </>
