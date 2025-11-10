@@ -26,7 +26,7 @@ const AddMovie = () => {
       addedBy: user.email,
     };
     axiosSecure
-      .post("/movies", formData)
+      .post("/movies/add", formData)
       .then((data) => {
         console.log(data.data);
         toast.success("Movie added successfully!");
