@@ -66,7 +66,6 @@ const UpdateMovies = () => {
         Update Movie
       </h2>
       <form className="space-y-4" onSubmit={handleSubmit}>
-        {/* Title */}
         <div>
           <label className="block font-semibold mb-1">Title</label>
           <input

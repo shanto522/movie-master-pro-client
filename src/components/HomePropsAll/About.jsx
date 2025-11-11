@@ -14,7 +14,7 @@ const About = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl p-6 text-white">
+          <div className="bg-[#0967C2] rounded-xl p-6 text-white">
             <h4 className="font-bold text-lg">Dynamic Movie Data</h4>
             <p className="text-sm mt-2 opacity-90">
               MovieMaster Pro displays live movie data from MongoDB including
@@ -22,7 +22,7 @@ const About = () => {
               browse the latest and top-rated movies seamlessly.
             </p>
           </div>
-          <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-6 text-white">
+          <div className="bg-[#0967C2] rounded-xl p-6 text-white">
             <h4 className="font-bold text-lg">Secure User Access</h4>
             <p className="text-sm mt-2 opacity-90">
               Firebase Authentication ensures that protected routes like Add
@@ -30,7 +30,7 @@ const About = () => {
               Only the owner can edit or delete their movies.
             </p>
           </div>
-          <div className="bg-gradient-to-r from-green-500 to-teal-600 rounded-xl p-6 text-white">
+          <div className="bg-[#0967C2] rounded-xl p-6 text-white">
             <h4 className="font-bold text-lg">Platform Features</h4>
             <p className="text-sm mt-2 opacity-90">
               Users can add, update, delete, and organize movies in their

@@ -40,7 +40,7 @@ const AddMovie = () => {
 
   return (
     <div className="max-w-3xl mx-auto my-10 p-8 rounded-2xl shadow-xl bg-white dark:bg-gray-900 transition duration-300">
-      <ToastContainer position="top-left" />
+      <ToastContainer position="top-right" />
 
       <h2 className="flex items-center justify-center text-3xl md:text-4xl font-extrabold mb-10 gap-3">
         <BiSolidMoviePlay className="w-9 h-9 text-blue-600 dark:text-blue-400" />
@@ -58,60 +58,70 @@ const AddMovie = () => {
           name="title"
           type="text"
           placeholder="🎬 Movie Title"
+          required
         />
         <input
           className="input-field"
           name="genre"
           type="text"
           placeholder="🎭 Genre"
+          required
         />
         <input
           className="input-field"
           name="year"
           type="number"
           placeholder="📅 Release Year"
+          required
         />
         <input
           className="input-field"
           name="director"
           type="text"
           placeholder="🎬 Director"
+          required
         />
         <input
           className="input-field"
           name="cast"
           type="text"
           placeholder="👥 Cast"
+          required
         />
         <input
           className="input-field"
           name="rating"
           type="number"
           placeholder="⭐ Rating (1–10)"
+          required
         />
         <input
           className="input-field"
           name="duration"
           type="number"
           placeholder="⏱️ Duration (minutes)"
+          required
         />
         <input
           className="input-field"
           name="language"
           type="text"
           placeholder="🌐 Language"
+          required
         />
         <input
           className="input-field"
           name="country"
           type="text"
           placeholder="🏳️ Country"
+          required
         />
         <input
           className="input-field"
           name="poster"
           type="url"
           placeholder="🖼️ Poster Image URL"
+          required
         />
         <textarea
           className="input-field md:col-span-2"

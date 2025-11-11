@@ -20,6 +20,23 @@ a.active {
     transition;
   }
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }

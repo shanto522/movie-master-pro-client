@@ -21,22 +21,24 @@ const MovieDetails = () => {
     }
 
     try {
-      const res = await axiosSecure.get(`/wishlist?email=${user.email}`);
-      const exists = res.data.find((m) => m._id === movie._id);
-      if (exists) {
-        toast.warning("Already added to wishlist!");
-        return;
-      }
-
       await axiosSecure.post("/wishlist", {
-        ...movie,
-        addedBy: user.email,
+        movieId: movie._id,
+        title: movie.title,
+        genre: movie.genre,
+        rating: movie.rating,
+        posterUrl: movie.posterUrl,
       });
 
       toast.success("Added to wishlist successfully!");
     } catch (err) {
       console.error(err);
-      toast.error("Failed to add to wishlist");
+      if (err.response?.status === 400) {
+        toast.warning(
+          err.response.data.message || "Already added to wishlist!"
+        );
+      } else {
+        toast.error("Failed to add to wishlist!");
+      }
     }
   };
 
@@ -77,7 +79,7 @@ const MovieDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 md:p-12 space-y-6">
-      <ToastContainer position="top-left" />
+      <ToastContainer position="top-right" />
 
       <div className="flex flex-col md:flex-row gap-6 shadow-xl rounded-2xl p-6 animate-fadeIn bg-white dark:bg-gray-900 transition duration-300">
         <img

@@ -98,7 +98,7 @@ const LogIn = () => {
             />
             <span
               onClick={() => setShow(!show)}
-              className="absolute right-4 bottom-4 cursor-pointer text-gray-500 hover:text-red-100"
+              className="absolute right-4 bottom-4 cursor-pointer"
             >
               {show ? <FaEye /> : <FaEyeSlash />}
             </span>

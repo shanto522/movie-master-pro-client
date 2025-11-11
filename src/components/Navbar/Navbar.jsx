@@ -105,12 +105,7 @@ const Navbar = () => {
 
               <li className="mt-2">
                 {user ? (
-                  <button
-                    onClick={handleLogOut}
-                    className="block w-full text-center text-red-600 font-semibold hover:bg-red-50 rounded-lg py-1 mt-1 transition"
-                  >
-                    Logout
-                  </button>
+                  ""
                 ) : (
                   <>
                     <NavLink
@@ -190,7 +185,7 @@ const Navbar = () => {
               <li>
                 <button
                   onClick={handleLogOut}
-                  className="text-red-600 font-semibold flex justify-center hover:bg-red-50 dark:hover:bg-red-900 rounded-lg transition-colors w-full"
+                  className="text-red-600 font-semibold flex justify-center   rounded-lg transition-colors w-full"
                 >
                   <IoMdLogOut size={22} />
                   Logout

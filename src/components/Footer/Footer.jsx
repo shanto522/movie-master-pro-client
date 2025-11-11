@@ -42,6 +42,14 @@ const Footer = () => {
                 My Collection
               </a>
             </li>
+            <li>
+              <a
+                href="/addMovie"
+                className="hover:text-red-400 transition-colors"
+              >
+                Add Movie
+              </a>
+            </li>
           </ul>
         </div>
 

@@ -34,7 +34,7 @@ const MyWishlist = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
-      <ToastContainer position="top-left" />
+      <ToastContainer position="top-right" />
       <h2 className="flex items-center justify-center text-3xl md:text-5xl font-extrabold mb-8 gap-3 font-inter">
         <GiEternalLove className="w-10 h-10 text-blue-600 dark:text-blue-400" />
         <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
