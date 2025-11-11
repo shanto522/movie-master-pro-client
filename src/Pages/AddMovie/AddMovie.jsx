@@ -40,7 +40,7 @@ const AddMovie = () => {
 
   return (
     <div className="max-w-3xl mx-auto my-10 p-8 rounded-2xl shadow-xl bg-white dark:bg-gray-900 transition duration-300">
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-left" />
 
       <h2 className="flex items-center justify-center text-3xl md:text-4xl font-extrabold mb-10 gap-3">
         <BiSolidMoviePlay className="w-9 h-9 text-blue-600 dark:text-blue-400" />

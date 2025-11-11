@@ -77,7 +77,7 @@ const MovieDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 md:p-12 space-y-6">
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-left" />
 
       <div className="flex flex-col md:flex-row gap-6 shadow-xl rounded-2xl p-6 animate-fadeIn bg-white dark:bg-gray-900 transition duration-300">
         <img

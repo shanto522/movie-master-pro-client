@@ -6,7 +6,7 @@ import { GrUpdate } from "react-icons/gr";
 import Swal from "sweetalert2";
 
 const UpdateMovies = () => {
-  const movie = useLoaderData(); 
+  const movie = useLoaderData();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
@@ -36,8 +36,7 @@ const UpdateMovies = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axiosSecure.put(`/movies/${movie._id}`, formData);
-
+      await axiosSecure.put(`/movies/update/${movie._id}`, formData);
 
       Swal.fire({
         title: "Success!",
@@ -80,7 +79,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Genre */}
         <div>
           <label className="block font-semibold mb-1">Genre</label>
           <input
@@ -93,7 +91,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Rating */}
         <div>
           <label className="block font-semibold mb-1">Rating</label>
           <input
@@ -109,7 +106,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Release Year */}
         <div>
           <label className="block font-semibold mb-1">Release Year</label>
           <input
@@ -122,7 +118,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Duration */}
         <div>
           <label className="block font-semibold mb-1">Duration (minutes)</label>
           <input
@@ -135,7 +130,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Poster URL */}
         <div>
           <label className="block font-semibold mb-1">Poster URL</label>
           <input
@@ -148,7 +142,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Director */}
         <div>
           <label className="block font-semibold mb-1">Director</label>
           <input
@@ -160,7 +153,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Cast */}
         <div>
           <label className="block font-semibold mb-1">Cast</label>
           <input
@@ -172,7 +164,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Language */}
         <div>
           <label className="block font-semibold mb-1">Language</label>
           <input
@@ -184,7 +175,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Country */}
         <div>
           <label className="block font-semibold mb-1">Country</label>
           <input
@@ -196,7 +186,6 @@ const UpdateMovies = () => {
           />
         </div>
 
-        {/* Plot Summary */}
         <div>
           <label className="block font-semibold mb-1">Plot Summary</label>
           <textarea

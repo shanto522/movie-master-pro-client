@@ -26,7 +26,12 @@ const Home = () => {
     fetchMovies();
   }, [axios]);
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <span className="loading loading-bars loading-xl"></span>
+      </div>
+    );
 
   const totalMovies = movies.length;
   const uniqueUsers = new Set(movies.map((m) => m.addedBy).filter(Boolean))

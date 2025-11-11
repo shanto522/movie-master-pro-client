@@ -12,6 +12,7 @@ import MovieDetails from "../Pages/MovieDetails/MovieDetails";
 import Loading from "../Pages/Loading/Loading";
 import UpdateMovies from "../Pages/UpdateMovies/UpdateMovies";
 import MyWishlist from "../Pages/MyWishlist/MyWishlist";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
         element: <Register />,
       },
     ],
+  },
+  {
+    path: "/*",
+    element: <ErrorPage></ErrorPage>,
   },
 ]);
 export default router;
