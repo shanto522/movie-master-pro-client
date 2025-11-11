@@ -8,6 +8,7 @@ import TopRatedMovies from "../../components/HomePropsAll/TopRatedMovies";
 import RecentlyAdded from "../../components/HomePropsAll/RecentlyAdded";
 import Genres from "../../components/HomePropsAll/Gener";
 import About from "../../components/HomePropsAll/About";
+import AdvancedFilter from "../../components/AdvancedFiltering/AdvancedFiltering";
 
 const FadeInWhenVisible = ({ children }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
@@ -68,7 +69,6 @@ const Home = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, ease: "easeInOut" }}
     >
-      {/* 🔹 Hero Section with smooth zoom-in animation */}
       <motion.div
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
