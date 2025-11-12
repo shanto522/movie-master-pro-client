@@ -27,8 +27,8 @@ const router = createBrowserRouter([
         path: "/allMovies",
         element: <AllMovies />,
         loader: () =>
-          fetch("http://movies-master-pro-server.vercel.app/movies").then((res) =>
-            res.json()
+          fetch("https://movies-master-pro-server.vercel.app/movies").then(
+            (res) => res.json()
           ),
       },
       {
@@ -55,9 +55,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://movies-master-pro-server.vercel.app/movies/${params.id}`).then(
-            (res) => res.json()
-          ),
+          fetch(
+            `https://movies-master-pro-server.vercel.app/movies/${params.id}`
+          ).then((res) => res.json()),
       },
       {
         path: "/updateMovies/:id",
@@ -67,9 +67,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://movies-master-pro-server.vercel.app/movies/${params.id}`).then((res) =>
-            res.json()
-          ),
+          fetch(
+            `https://movies-master-pro-server.vercel.app/movies/${params.id}`
+          ).then((res) => res.json()),
       },
       {
         path: "/myWishlist",

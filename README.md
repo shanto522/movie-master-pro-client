@@ -1,6 +1,6 @@
 # MovieMaster Pro
 
-**Live Site:** 
+**Live Site:** https://movie-master-pro-client.web.app
 
 MovieMaster Pro is a comprehensive movie management platform that allows users to browse, manage, and organize their favorite movies. The system is designed to offer a seamless experience with advanced filtering, personal collections, and a modern responsive UI.
 

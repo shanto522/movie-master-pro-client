@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const instance = axios.create({
-  baseURL: "http://movies-master-pro-server.vercel.app",
+  baseURL: "https://movies-master-pro-server.vercel.app",
 });
 
 const useAxiosSecure = () => {
