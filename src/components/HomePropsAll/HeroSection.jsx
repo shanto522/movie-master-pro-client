@@ -29,7 +29,7 @@ const HeroSection = ({ movies }) => {
               <img
                 src={movie.posterUrl}
                 alt={movie.title}
-                className="w-full h-[60vh]  md:h-[90vh] sm:h-[50vh] object-cover brightness-75"
+                className="w-full h-[60vh]  md:h-full sm:h-[50vh] object-cover brightness-75"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8 md:p-16">
                 <h2 className="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg">

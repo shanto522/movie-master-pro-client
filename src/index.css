@@ -34,7 +34,7 @@ a.active {
   display: flex;
   gap: 1rem;
   width: max-content;
-  animation: marquee 20s linear infinite;
+  animation: marquee 100s linear infinite;
 }
 
 * {
