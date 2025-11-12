@@ -8,7 +8,6 @@ import TopRatedMovies from "../../components/HomePropsAll/TopRatedMovies";
 import RecentlyAdded from "../../components/HomePropsAll/RecentlyAdded";
 import Genres from "../../components/HomePropsAll/Gener";
 import About from "../../components/HomePropsAll/About";
-import AdvancedFilter from "../../components/AdvancedFiltering/AdvancedFiltering";
 
 const FadeInWhenVisible = ({ children }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });

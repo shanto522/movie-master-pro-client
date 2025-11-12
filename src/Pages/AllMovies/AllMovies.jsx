@@ -7,7 +7,10 @@ const AllMovies = () => {
   const data = useLoaderData();
   const [movies, setMovies] = useState(data);
   const [searchText, setSearchText] = useState("");
-
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [minRating, setMinRating] = useState("");
+  const [maxRating, setMaxRating] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const handleSearch = (value) => {
     setSearchText(value);
 
@@ -23,6 +26,105 @@ const AllMovies = () => {
         setMovies(result);
       })
       .catch((err) => console.error(err));
+  };
+
+  const handleAdvancedFilter = () => {
+    const query = new URLSearchParams();
+    if (selectedGenres.length > 0)
+      query.append("genres", selectedGenres.join(","));
+    if (minRating) query.append("minRating", minRating);
+    if (maxRating) query.append("maxRating", maxRating);
+
+    fetch(`http://localhost:3000/filter?${query.toString()}`)
+      .then((res) => res.json())
+      .then((result) => {
+        console.log("🎯 Filtered Movies:", result);
+        setMovies(result);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const genres = [
+    "Action",
+    "Action-Comedy",
+    "Adventure",
+    "Adventure Comedy",
+    "Adventure Drama",
+    "Anime",
+    "Animation",
+    "Biography",
+    "Biographical Drama",
+    "Black Comedy",
+    "CGI Animation",
+    "Comedy",
+    "Coming-of-Age",
+    "Crime",
+    "Crime Thriller",
+    "Dark Comedy",
+    "Disaster",
+    "Documentary",
+    "Drama",
+    "Epic",
+    "Epic Fantasy",
+    "Family",
+    "Family Drama",
+    "Fantasy",
+    "Fantasy Adventure",
+    "Film-Noir",
+    "Gothic",
+    "Historical Drama",
+    "History",
+    "Horror",
+    "Legal Drama",
+    "Martial Arts",
+    "Martial Arts Comedy",
+    "Medical Drama",
+    "Military",
+    "Music",
+    "Musical",
+    "Mystery",
+    "Noir Thriller",
+    "Paranormal",
+    "Post-Apocalyptic",
+    "Political",
+    "Political Thriller",
+    "Psychological",
+    "Psychological Thriller",
+    "Romance",
+    "Romantic Comedy",
+    "Romantic Drama",
+    "Road Movie",
+    "Satire",
+    "Sci-Fi",
+    "Science Fantasy",
+    "Short",
+    "Slasher",
+    "Space Opera",
+    "Sport",
+    "Steampunk",
+    "Superhero",
+    "Supernatural",
+    "Teen",
+    "Teen Romance",
+    "Time Travel",
+    "Thriller",
+    "War",
+    "War Drama",
+    "Western",
+    "Zombie",
+    "Experimental",
+    "Experimental Drama",
+    "Cyberpunk",
+    "Mythology",
+  ];
+
+  const toggleGenre = (genre) => {
+    if (selectedGenres.includes(genre)) {
+      setSelectedGenres(selectedGenres.filter((g) => g !== genre));
+    } else {
+      setSelectedGenres([...selectedGenres, genre]);
+    }
+    setDropdownOpen(false);
   };
 
   return (
@@ -60,6 +162,65 @@ const AllMovies = () => {
             className="outline-none bg-transparent w-full"
           />
         </label>
+      </div>
+
+      <div className="rounded-2xl p-6 mb-10 shadow-sm">
+        <div className="relative w-full max-w-md mx-auto mb-6">
+          <div
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 flex justify-between items-center cursor-pointer"
+          >
+            <span>
+              {selectedGenres.length > 0
+                ? selectedGenres.join(", ")
+                : "Select Genres"}
+            </span>
+            <span className="ml-2 text-gray-500">&#9660;</span>
+          </div>
+          {dropdownOpen && (
+            <div className="absolute mt-1 w-full max-h-60 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 z-10 shadow-lg">
+              {genres.map((genre) => (
+                <div
+                  key={genre}
+                  onClick={() => toggleGenre(genre)}
+                  className={`px-4 py-2 cursor-pointer hover:bg-blue-100 dark:hover:bg-gray-600 ${
+                    selectedGenres.includes(genre)
+                      ? "bg-blue-200 dark:bg-blue-600 text-white"
+                      : ""
+                  }`}
+                >
+                  {genre}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+          <input
+            type="number"
+            placeholder="Min Rating"
+            value={minRating}
+            onChange={(e) => setMinRating(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-40 text-center dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          />
+          <input
+            type="number"
+            placeholder="Max Rating"
+            value={maxRating}
+            onChange={(e) => setMaxRating(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-40 text-center dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          />
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={handleAdvancedFilter}
+            className="btn-pro text-white px-8 py-2 rounded-full font-semibold shadow-md hover:opacity-90 transition"
+          >
+            Apply Filter
+          </button>
+        </div>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
