@@ -1,13 +1,15 @@
 import axios from "axios";
 import useAuth from "./useAuth";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://movies-master-pro-server.vercel.app",
 });
 
 const useAxiosSecure = () => {
-  const { user } = useAuth();
+  const { user, signOutFunc } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const requestInterceptor = instance.interceptors.request.use((config) => {
@@ -16,11 +18,25 @@ const useAxiosSecure = () => {
       }
       return config;
     });
+    const responseInterceptor = instance.interceptors.response.use(
+      (res) => {
+        return res;
+      },
+      (err) => {
+        const status = err.status;
+        if (status === 401 || status === 403) {
+          signOutFunc().then(() => {
+            navigate("/auth/register");
+          });
+        }
+      }
+    );
 
     return () => {
       instance.interceptors.request.eject(requestInterceptor);
+      instance.interceptors.response.eject(responseInterceptor);
     };
-  }, [user]);
+  }, [user, signOutFunc, navigate]);
 
   return instance;
 };

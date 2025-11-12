@@ -19,7 +19,7 @@ const AllMovies = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/search?search=${value}`)
+    fetch(`http://movies-master-pro-server.vercel.app/search?search=${value}`)
       .then((res) => res.json())
       .then((result) => {
         console.log("🔍 Search result:", result);
@@ -35,7 +35,9 @@ const AllMovies = () => {
     if (minRating) query.append("minRating", minRating);
     if (maxRating) query.append("maxRating", maxRating);
 
-    fetch(`http://localhost:3000/filter?${query.toString()}`)
+    fetch(
+      `http://movies-master-pro-server.vercel.app/filter?${query.toString()}`
+    )
       .then((res) => res.json())
       .then((result) => {
         console.log("🎯 Filtered Movies:", result);
