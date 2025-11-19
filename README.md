@@ -53,3 +53,35 @@ MovieMaster Pro is a comprehensive movie management platform that allows users t
 ---
 
 **Note:** This platform is designed to give a smooth, interactive experience for movie enthusiasts, with proper error handling, responsive layouts, and modern design patterns.
+
+Instructions to Run the Project Locally
+Clone the repository:
+
+git clone https://github.com/username/project.git
+Navigate to the project directory:
+
+cd project
+Install dependencies:
+
+npm install
+Set up environment variables:
+Create a .env file in the root directory and include the following variables:
+
+PORT=5000
+MONGO_URI=your-mongodb-uri
+JWT_SECRET=your-jwt-secret
+STRIPE_KEY=your-stripe-key
+Start the server:
+
+npm run server
+Start the client: In another terminal, run the following:
+
+npm run client
+Open the application in your browser:
+Navigate to http://localhost:3000.
+
+Detailed Instructions for Deployment Using Docker
+Ensure you have Docker and Docker Compose installed on your machine.
+Run the following command to start the services:
+docker-compose up --build
+Access the live application at http://localhost:3000.
