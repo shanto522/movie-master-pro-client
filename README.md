@@ -58,7 +58,7 @@ MovieMaster Pro is a comprehensive movie management platform that allows users t
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/username/project.git
+    git clone https://github.com/shanto522/movie-master-pro-client.git
     ```
 
 2. **Navigate to the project directory**:
