@@ -53,3 +53,21 @@ MovieMaster Pro is a comprehensive movie management platform that allows users t
 ---
 
 **Note:** This platform is designed to give a smooth, interactive experience for movie enthusiasts, with proper error handling, responsive layouts, and modern design patterns.
+
+## Instructions to Run the Project Locally
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/username/project.git
+    ```
+
+2. **Navigate to the project directory**:
+    ```bash
+    cd project
+    ```
+
+3. **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
