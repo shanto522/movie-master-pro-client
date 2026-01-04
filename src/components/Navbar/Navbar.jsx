@@ -3,7 +3,13 @@ import logo from "../../assets/logoImg.jpg";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
-import { FaHome, FaRegArrowAltCircleDown } from "react-icons/fa";
+import {
+  FaHome,
+  FaInfoCircle,
+  FaPhone,
+  FaRegArrowAltCircleDown,
+  FaTachometerAlt,
+} from "react-icons/fa";
 import { MdMovieFilter } from "react-icons/md";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import { IoMdLogOut } from "react-icons/io";
@@ -29,7 +35,6 @@ const Navbar = () => {
     signOutFunc()
       .then(() => {
         toast.success("LogOut Successful!");
-        setUser(null);
         setMobileDropdownOpen(false);
       })
       .catch((error) => toast.error(error.message));
@@ -52,31 +57,30 @@ const Navbar = () => {
       {user && (
         <>
           <li>
-            <NavLink to="/addMovie">
-              <AiFillFolderAdd size={22} />
-              Add Movie
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/myCollection">
-              <BsFillCollectionPlayFill size={22} />
-              My Collection
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/myWishlist">
-              <AiFillFolderAdd size={22} />
-              My Wishlist
+            <NavLink to="/dashboard">
+              <FaTachometerAlt size={22} />
+              Dashboard
             </NavLink>
           </li>
         </>
       )}
+      <li>
+        <NavLink to="/aboutUs">
+          <FaInfoCircle size={20} />
+          About Us
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact">
+          <FaPhone size={18} />
+          Contact Us
+        </NavLink>
+      </li>
     </>
   );
 
   return (
-    <div className="navbar max-w-[1440px] mx-auto sticky top-0 z-50 shadow-md bg-base-100 text-base-content md:px-13">
+    <div className="navbar bg-base-100 shadow-xl text-base-content md:px-8">
       <div className="navbar-start flex items-center gap-3">
         <div className="dropdown md:hidden">
           <button
@@ -158,7 +162,7 @@ const Navbar = () => {
               className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 px-3 py-1 rounded-lg transition-all"
             >
               <img
-                src={user.photoURL}
+                src={user?.photoURL || "/default-avatar.png"}
                 alt="profile"
                 className="h-9 w-9 rounded-full border-2 border-white"
               />
@@ -169,12 +173,13 @@ const Navbar = () => {
               <li className="text-center pb-2 border-b border-gray-300 dark:border-gray-600">
                 <div className="flex flex-col items-center">
                   <img
-                    src={user.photoURL}
+                    src={user?.photoURL || "/default-avatar.png"}
                     alt="profile"
                     className="h-14 w-14 rounded-full border-2 border-gray-400 mb-2"
                   />
+
                   <p className="font-semibold text-gray-800 dark:text-gray-200 text-[20px]">
-                    {user.displayName}
+                    {user?.displayName || "User"}
                   </p>
                   <p className="text-xs font-semibold text-gray-500 dark:text-gray-300">
                     {user.email}

@@ -1,7 +1,7 @@
 import React from "react";
 import { BiSolidMoviePlay } from "react-icons/bi";
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -93,6 +93,9 @@ const AddMovie = () => {
           name="rating"
           type="number"
           placeholder="⭐ Rating (1–10)"
+          step="0.1" // এইটা খুব important
+          min="1"
+          max="10"
           required
         />
         <input

@@ -78,8 +78,8 @@ const Genres = () => {
   const allGenres = [...genres, ...genres];
 
   return (
-    <section className="max-w-6xl mx-auto mb-20 px-4 text-center">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-10">
+    <section className="max-w-[1350px] mx-auto mb-20 px-4">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-blue-500 mb-10">
         Popular Genres
       </h2>
       <div className="overflow-hidden">

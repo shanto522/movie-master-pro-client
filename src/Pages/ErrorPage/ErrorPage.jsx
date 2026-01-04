@@ -5,7 +5,9 @@ import Footer from "../../components/Footer/Footer";
 const ErrorPage = () => {
   return (
     <div>
-      <Navbar></Navbar>
+      <header className="sticky top-0 z-50 shadow-sm">
+        <Navbar></Navbar>
+      </header>
       <main className="min-h-screen flex justify-center items-center">
         <img src={errorImg} alt="" />
       </main>

@@ -3,6 +3,7 @@ import { Link, useLoaderData, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MovieDetails = () => {
   const movie = useLoaderData();
@@ -10,7 +11,11 @@ const MovieDetails = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
-  if (!movie) return <p className="text-center mt-10">Movie not found</p>;
+  if (!movie) {
+    return (
+      <p className="text-center mt-20 text-xl text-gray-500">Movie not found</p>
+    );
+  }
 
   const isOwner = user?.email === movie.addedBy;
 
@@ -28,119 +33,124 @@ const MovieDetails = () => {
         rating: movie.rating,
         posterUrl: movie.posterUrl,
       });
-
-      toast.success("Added to wishlist successfully!");
+      toast.success("Added to wishlist!");
     } catch (err) {
-      console.error(err);
       if (err.response?.status === 400) {
-        toast.warning(
-          err.response.data.message || "Already added to wishlist!"
-        );
+        toast.warning(err.response.data.message || "Already added!");
       } else {
-        toast.error("Failed to add to wishlist!");
+        toast.error("Failed to add to wishlist");
       }
     }
   };
 
-  const handleDelete = async () => {
-    toast.info(
-      ({ closeToast }) => (
-        <div className="flex flex-col gap-4">
-          <p>Are you sure you want to delete this movie?</p>
-          <div className="flex gap-3 justify-end">
-            <button
-              className="px-4 py-1 rounded bg-gray-200 hover:bg-gray-300 transition"
-              onClick={closeToast}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition"
-              onClick={async () => {
-                try {
-                  await axiosSecure.delete(`/movies/${movie._id}`);
-                  toast.success("Movie deleted successfully!");
-                  navigate("/allMovies");
-                } catch (err) {
-                  console.error(err);
-                  toast.error("Failed to delete movie");
-                }
-                closeToast();
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      ),
-      { autoClose: false, closeOnClick: false }
-    );
-  };
+const handleDelete = async () => {
+  // SweetAlert2 confirmation
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "This movie will be permanently deleted!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await axiosSecure.delete(`/movies/${movie._id}`);
+      Swal.fire("Deleted!", "Movie deleted successfully.", "success");
+      navigate("/allMovies"); // delete success -> redirect
+    } catch (err) {
+      Swal.fire("Error!", "Failed to delete movie.", "error");
+    }
+  }
+};
 
   return (
-    <div className="max-w-6xl mx-auto p-6 md:p-12 space-y-6">
+    <section className="py-10 px-4">
       <ToastContainer position="top-right" />
 
-      <div className="flex flex-col md:flex-row gap-6 shadow-xl rounded-2xl p-6 animate-fadeIn bg-white dark:bg-gray-900 transition duration-300">
-        <img
-          src={movie.posterUrl}
-          alt={movie.title}
-          className="w-full md:w-1/3 h-80 md:h-auto object-cover rounded-lg flex-shrink-0"
-        />
+      {/* HERO SECTION */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
+        {/* Poster */}
+        <div className="relative sticky top-0">
+          <img
+            src={movie.posterUrl}
+            alt={movie.title}
+            className="w-full max-h-[600px] object-cover rounded-3xl shadow-2xl"
+          />
+          <span className="absolute top-4 left-4 px-4 py-1 rounded-full text-sm font-semibold bg-black/70 text-white">
+            ⭐ {movie.rating}
+          </span>
+        </div>
 
-        <div className="flex-1 space-y-3 w-full overflow-hidden">
-          <h1 className="text-4xl font-bold break-words">{movie.title}</h1>
+        {/* Movie Info */}
+        <div className="space-y-6">
+          <h1 className="text-4xl font-extrabold leading-tight">
+            {movie.title}
+          </h1>
 
-          <p className="break-words">
-            <strong>Genre:</strong> {movie.genre} | <strong>Rating:</strong>{" "}
-            {movie.rating} | <strong>Year:</strong> {movie.releaseYear}
-          </p>
-
-          <p className="break-words">
-            <strong>Director:</strong> {movie.director}
-          </p>
-          <p className="break-words">
-            <strong>Cast:</strong> {movie.cast}
-          </p>
-          <p className="break-words">
-            <strong>Duration:</strong> {movie.duration} min
-          </p>
-          <p className="break-words">
-            <strong>Language:</strong> {movie.language}
-          </p>
-          <p className="break-words">
-            <strong>Country:</strong> {movie.country}
-          </p>
-          <p className="break-words">
-            <strong>Added By:</strong> {movie.addedBy}
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            {movie.genre} • {movie.releaseYear} • {movie.duration} min
           </p>
 
-          <p className="mt-4 break-words max-w-full overflow-auto">
-            <strong>Plot Summary:</strong> {movie.plotSummary}
-          </p>
-          <button
-            onClick={handleAddToWishlist}
-            className="btn-pro mt-4 px-6 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition"
-          >
-            Add to Wishlist
-          </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base">
+            <p>
+              <span className="font-semibold">Director:</span> {movie.director}
+            </p>
+            <p>
+              <span className="font-semibold">Language:</span> {movie.language}
+            </p>
+            <p>
+              <span className="font-semibold">Country:</span> {movie.country}
+            </p>
+            <p>
+              <span className="font-semibold">Added By:</span> {movie.addedBy}
+            </p>
+          </div>
 
-          {isOwner && (
-            <div className="mt-6 flex gap-4 flex-wrap">
-              <Link to={`/updateMovies/${movie._id}`}>
-                <button className="px-5 py-2 btn-pro rounded-xl">Edit</button>
-              </Link>
-              <button
-                onClick={handleDelete}
-                className="px-5 py-2 btn-pro rounded-xl bg-red-500 hover:bg-red-600 text-white transition"
-              >
-                Delete
-              </button>
-            </div>
-          )}
+          <div>
+            <h3 className="text-xl font-bold mb-2">Cast</h3>
+            <p className="text-gray-700 dark:text-gray-300">{movie.cast}</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-2">Story</h3>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {movie.plotSummary}
+            </p>
+          </div>
+
+          {/* ACTION BUTTONS */}
+          <div className="flex flex-wrap gap-4 pt-6">
+            <button
+              onClick={handleAddToWishlist}
+              className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition"
+            >
+              + Add to Wishlist
+            </button>
+
+            {isOwner && (
+              <>
+                <Link to={`/updateMovies/${movie._id}`}>
+                  <button className="px-6 py-3 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 transition">
+                    Edit Movie
+                  </button>
+                </Link>
+
+                <button
+                  onClick={handleDelete}
+                  className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white transition"
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

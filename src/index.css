@@ -10,7 +10,7 @@
   @apply btn bg-[#0967C2] text-white border-[#0059b3];
 }
 a.active {
-  @apply btn bg-[#47698F] text-white border-[#35567b];
+  @apply  bg-[#47698F] text-white border-[#35567b];
 }
 @layer components {
   .input-field {

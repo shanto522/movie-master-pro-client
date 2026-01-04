@@ -8,6 +8,13 @@ import TopRatedMovies from "../../components/HomePropsAll/TopRatedMovies";
 import RecentlyAdded from "../../components/HomePropsAll/RecentlyAdded";
 import Genres from "../../components/HomePropsAll/Gener";
 import About from "../../components/HomePropsAll/About";
+import FeaturesSection from "../../components/HomePropsAll/FeaturesSection";
+import TestimonialsSection from "../../components/HomePropsAll/TestimonialsSection";
+import BlogSection from "../../components/HomePropsAll/BlogSection";
+import FAQSection from "../../components/HomePropsAll/FAQSection";
+import NewsletterSection from "../../components/HomePropsAll/NewsletterSection";
+import PartnersSection from "../../components/HomePropsAll/PartnersSection";
+import StatsHighlightsSection from "../../components/HomePropsAll/StatsHighlightsSection";
 
 const FadeInWhenVisible = ({ children }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
@@ -91,13 +98,40 @@ const Home = () => {
       <FadeInWhenVisible>
         <RecentlyAdded recentlyAdded={recentlyAddedList} />
       </FadeInWhenVisible>
+      <FadeInWhenVisible>
+        <StatsHighlightsSection />
+      </FadeInWhenVisible>
 
       <FadeInWhenVisible>
         <Genres />
       </FadeInWhenVisible>
 
       <FadeInWhenVisible>
+        <FeaturesSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
         <About />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <TestimonialsSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <BlogSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <FAQSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <PartnersSection />
+      </FadeInWhenVisible>
+
+      <FadeInWhenVisible>
+        <NewsletterSection />
       </FadeInWhenVisible>
     </motion.div>
   );

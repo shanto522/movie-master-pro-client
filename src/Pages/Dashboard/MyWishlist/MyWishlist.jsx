@@ -3,8 +3,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import { GiEternalLove } from "react-icons/gi";
 import { FaStar } from "react-icons/fa";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from "../../hooks/useAuth";
+
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const MyWishlist = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -24,23 +26,34 @@ const MyWishlist = () => {
   }, [user, axiosSecure]);
 
   const handleRemove = async (id) => {
-    try {
-      await axiosSecure.delete(`/wishlist/${id}`);
-      setWishlist((prev) => prev.filter((m) => m._id !== id));
-      toast.info("Removed from wishlist!");
-    } catch (error) {
-      toast.error("Failed to remove from wishlist");
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove this movie from your wishlist?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosSecure.delete(`/wishlist/${id}`);
+        setWishlist((prev) => prev.filter((m) => m._id !== id));
+        Swal.fire("Deleted!", "Removed from wishlist.", "success");
+      } catch (error) {
+        Swal.fire("Error!", "Failed to remove from wishlist.", "error");
+      }
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12">
+    <div className=" py-4">
       <ToastContainer position="top-right" />
-      <h2 className="flex items-center justify-center text-3xl md:text-5xl font-extrabold mb-8 gap-3 font-inter">
+      <h2 className="flex items-center justify-start text-3xl md:text-4xl font-extrabold mb-8 gap-3 font-inter">
         <GiEternalLove className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-        <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-          My Wishlist
-        </span>
+        <span className="text-blue-500">My Wishlist</span>
       </h2>
 
       {wishlist.length === 0 ? (

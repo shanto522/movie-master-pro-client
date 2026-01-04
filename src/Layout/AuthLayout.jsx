@@ -7,7 +7,7 @@ import Footer from "../components/Footer/Footer";
 const AuthLayout = () => {
   return (
     <div>
-        <header>
+        <header className="shadow-sm sticky top-0 z-50">
           <Navbar></Navbar>
         </header>
         <main>

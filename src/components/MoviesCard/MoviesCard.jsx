@@ -29,7 +29,7 @@ const MoviesCard = ({ movie }) => {
         <div className="mt-auto">
           <Link to={`/movieDetails/${_id}`}>
             <button className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
-              Details
+             View Details
             </button>
           </Link>
         </div>

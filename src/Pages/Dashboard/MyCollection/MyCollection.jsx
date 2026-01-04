@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { BsCollectionPlay } from "react-icons/bs";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../Loading/Loading";
 
 const MyCollection = () => {
   const { user, loading: authLoading, setLoading } = useAuth();
@@ -14,15 +15,20 @@ const MyCollection = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLocalLoading] = useState(true);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const moviesPerPage = 15;
+
   useEffect(() => {
     if (!user) return;
     setLocalLoading(true);
+
     const fetchMyMovies = async () => {
       try {
         const res = await axiosSecure.get("/movies");
-        const myMovies = res.data.filter(
-          (movie) => movie.addedBy === user.email
-        );
+        const myMovies = res.data
+          .filter((movie) => movie.addedBy === user.email)
+          .sort((a, b) => b._id.localeCompare(a._id)); // Sort by _id descending (latest first)
         setMovies(myMovies);
       } catch (err) {
         console.error(err);
@@ -32,6 +38,7 @@ const MyCollection = () => {
         setLoading(false);
       }
     };
+
     fetchMyMovies();
   }, [user, setLoading, axiosSecure]);
 
@@ -70,20 +77,26 @@ const MyCollection = () => {
     );
   };
 
+  // Pagination calculations
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
+  const totalPages = Math.ceil(movies.length / moviesPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-12 space-y-4">
+    <div className="py-4 space-y-4">
       <ToastContainer position="top-right" />
 
-      <h2 className="flex items-center justify-center text-3xl md:text-5xl font-extrabold mb-8 gap-3">
+      <h2 className="flex items-center justify-start text-3xl font-extrabold mb-8 gap-3">
         <BsCollectionPlay className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-        <span className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-          My Movie Collection
-        </span>
+        <span className="text-blue-500">My Movie Collection</span>
       </h2>
 
-      {(loading || authLoading) && (
-        <p className="text-center mt-10">Loading your movies...</p>
-      )}
+      {(loading || authLoading) && <Loading />}
 
       {!loading && movies.length === 0 && (
         <p className="text-center mt-10 text-gray-500">
@@ -93,8 +106,9 @@ const MyCollection = () => {
 
       {!loading && movies.length > 0 && (
         <>
+          {/* Desktop Table */}
           <div className="hidden md:block overflow-x-auto">
-            <table className="table-auto w-full bg-white dark:bg-gray-900 shadow-lg rounded-xl min-w-[700px]">
+            <table className="table-auto w-full shadow-lg rounded-xl min-w-[700px]">
               <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
                   <th className="px-4 py-2 text-left">No.</th>
@@ -104,12 +118,14 @@ const MyCollection = () => {
                 </tr>
               </thead>
               <tbody>
-                {movies.map((movie, index) => (
+                {currentMovies.map((movie, index) => (
                   <tr
                     key={movie._id}
-                    className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="border-b border-gray-200 dark:border-gray-700"
                   >
-                    <td className="px-4 py-3">{index + 1}</td>
+                    <td className="px-4 py-3">
+                      {indexOfFirstMovie + index + 1}
+                    </td>
                     <td className="px-4 py-3 flex items-center gap-3">
                       <div className="w-16 h-16 flex-shrink-0">
                         <img
@@ -157,11 +173,12 @@ const MyCollection = () => {
             </table>
           </div>
 
+          {/* Mobile Cards */}
           <div className="md:hidden space-y-4">
-            {movies.map((movie) => (
+            {currentMovies.map((movie) => (
               <div
                 key={movie._id}
-                className="flex items-center justify-between bg-white dark:bg-gray-900 shadow-lg rounded-xl p-4"
+                className="flex items-center justify-between shadow-lg rounded-xl p-4"
               >
                 <div className="flex items-center gap-4">
                   <img
@@ -193,6 +210,54 @@ const MyCollection = () => {
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-3 mt-6">
+              {/* Previous Button */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 rounded-lg border ${
+                  currentPage === 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                Previous
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-3 py-1 rounded-lg border ${
+                      page === currentPage
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1 rounded-lg border ${
+                  currentPage === totalPages
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

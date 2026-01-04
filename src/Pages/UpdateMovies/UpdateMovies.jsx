@@ -44,7 +44,7 @@ const UpdateMovies = () => {
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
-        navigate("/myCollection");
+        navigate("/dashboard/myCollection");
       });
     } catch (err) {
       console.error(err);

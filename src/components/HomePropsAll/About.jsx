@@ -2,9 +2,9 @@ import React from "react";
 
 const About = () => {
   return (
-    <section className="max-w-6xl mx-auto mb-16 px-4">
+    <section className="max-w-[1350px] mx-auto mb-20 px-4">
       <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 md:p-12">
-        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-4">
+        <h2 className="text-3xl font-extrabold text-blue-500 mb-4">
           About MovieMaster Pro
         </h2>
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
